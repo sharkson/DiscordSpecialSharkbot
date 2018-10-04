@@ -46,6 +46,12 @@ namespace DiscordSpecialBot
                 ConfigurationService.ExclusiveTypes = new List<string>();
             }
 
+            ConfigurationService.ExcludedTypes = Configuration.GetSection("ExcludedTypes").Get<List<string>>();
+            if (ConfigurationService.ExcludedTypes == null)
+            {
+                ConfigurationService.ExcludedTypes = new List<string>();
+            }
+
             ConfigurationService.RequiredProperyMatches = Configuration.GetSection("RequiredProperyMatches").Get<List<string>>();
             if (ConfigurationService.RequiredProperyMatches == null)
             {

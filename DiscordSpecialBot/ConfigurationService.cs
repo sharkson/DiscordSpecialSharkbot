@@ -10,6 +10,7 @@ namespace DiscordSpecialBot
         public static List<string> IgnoredChannels;
         public static string ChatType;
         public static List<string> ExclusiveTypes;
+        public static List<string> ExcludedTypes;
         public static List<string> RequiredProperyMatches;
         public static List<string> NickNames;
         public static List<string> AllowedBots;

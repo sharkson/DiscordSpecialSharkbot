@@ -24,7 +24,7 @@ namespace DiscordSpecialBot
             var chat = GetChat(e);
             var conversationName = GetConversationName(e);
             var metadata = GetMetadata(e);
-            var chatRequest = new ChatRequest { chat = chat, type = ConfigurationService.ChatType, conversationName = conversationName, metadata = metadata, requestTime = DateTime.Now, exclusiveTypes = ConfigurationService.ExclusiveTypes, requiredProperyMatches = ConfigurationService.RequiredProperyMatches };
+            var chatRequest = new ChatRequest { chat = chat, type = ConfigurationService.ChatType, conversationName = conversationName, metadata = metadata, requestTime = DateTime.Now, exclusiveTypes = ConfigurationService.ExclusiveTypes, excludedTypes = ConfigurationService.ExcludedTypes, requiredProperyMatches = ConfigurationService.RequiredProperyMatches };
 
             var httpContent = GetHttpContent(chatRequest);
             var response = await client.PutAsync(ConfigurationService.ApiUrl + "/api/chat", httpContent);
