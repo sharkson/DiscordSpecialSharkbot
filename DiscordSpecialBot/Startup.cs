@@ -24,11 +24,16 @@ namespace DiscordSpecialBot
             ConfigurationService.Token = Configuration.GetSection("Token").Value;
             ConfigurationService.ApiUrl = Configuration.GetSection("ApiUrl").Value;
             ConfigurationService.BotName = Configuration.GetSection("BotName").Value;
-            ConfigurationService.ChatType = Configuration.GetSection("ChatType").Value;
         }
 
         private void LoadOptionalSettings()
         {
+            ConfigurationService.ChatType = Configuration.GetSection("ChatType").Value;
+            if(ConfigurationService.ChatType == null)
+            {
+                ConfigurationService.ChatType = "discord";
+            }
+
             ConfigurationService.IgnoredChannels = Configuration.GetSection("IgnoredChannels").Get<List<string>>();
             if (ConfigurationService.IgnoredChannels == null)
             {
@@ -53,7 +58,20 @@ namespace DiscordSpecialBot
                 ConfigurationService.NickNames = new List<string>();
             }
 
-            ConfigurationService.TargetedResponseConfidenceThreshold = double.Parse(Configuration.GetSection("TargetedResponseConfidenceThreshold").Value);
+            ConfigurationService.AllowedBots = Configuration.GetSection("AllowedBots").Get<List<string>>();
+            if (ConfigurationService.AllowedBots == null)
+            {
+                ConfigurationService.AllowedBots = new List<string>();
+            }
+
+            if (Configuration.GetSection("TargetedResponseConfidenceThreshold").Value != null)
+            {
+                ConfigurationService.TargetedResponseConfidenceThreshold = double.Parse(Configuration.GetSection("TargetedResponseConfidenceThreshold").Value);
+            }
+            else
+            {
+                ConfigurationService.TargetedResponseConfidenceThreshold = .5;
+            }
 
             ConfigurationService.DefaultResponse = Configuration.GetSection("DefaultResponse").Value;
         }

@@ -12,6 +12,7 @@ namespace DiscordSpecialBot
         public static List<string> ExclusiveTypes;
         public static List<string> RequiredProperyMatches;
         public static List<string> NickNames;
+        public static List<string> AllowedBots;
         public static double TargetedResponseConfidenceThreshold;
         public static string DefaultResponse;
     }

@@ -95,8 +95,21 @@ namespace DiscordSpecialBot
             {
                 return false;
             }
-            if (e.Message.Author.IsBot || e.Message.MessageType != MessageType.Default || ConfigurationService.IgnoredChannels.Any(channel => channel == e.Message.Channel.Name))
+            if (ignoredBot(e) || e.Message.MessageType != MessageType.Default || ConfigurationService.IgnoredChannels.Any(channel => channel == e.Message.Channel.Name))
             {
+                return true;
+            }
+            return false;
+        }
+
+        private bool ignoredBot(MessageCreateEventArgs e)
+        {
+            if(e.Message.Author.IsBot)
+            {
+                if(ConfigurationService.AllowedBots.Any(b => b.ToLower() == e.Message.Author.Username.ToLower()))
+                {
+                    return false;
+                }
                 return true;
             }
             return false;
@@ -104,7 +117,7 @@ namespace DiscordSpecialBot
 
         public bool alwaysRespond(MessageCreateEventArgs e)
         {
-            if (e.Message.Channel.Type == ChannelType.Private || e.MentionedUsers.Contains(discord.CurrentUser) || e.Message.Content.Contains(discord.CurrentUser.Username) || ConfigurationService.NickNames.Any(nickName => e.Message.Content.ToLower().Contains(nickName.ToLower())))
+            if (e.Message.Channel.Type == ChannelType.Private || e.MentionedUsers.Contains(discord.CurrentUser) || e.Message.Content.ToLower().Contains(discord.CurrentUser.Username.ToLower()) || e.Message.Content.ToLower().Contains(ConfigurationService.BotName.ToLower()) || ConfigurationService.NickNames.Any(nickName => e.Message.Content.ToLower().Contains(nickName.ToLower())))
             {
                 return true;
             }
