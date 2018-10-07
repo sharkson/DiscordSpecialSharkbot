@@ -1,32 +1,36 @@
 ﻿using ChatModels;
 using DSharpPlus.EventArgs;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace DiscordSpecialBot
 {
     public class UserDetailService
     {
-        HttpClient client;
-
-        public UserDetailService(HttpClient httpClient)
+        public async Task<bool> HasRequiredPropertyAsync(MessageCreateEventArgs e, List<string> propertyMatches)
         {
-            client = httpClient;
+            var userData = await GetUserData(e.Author.Username);
+
+            return propertyMatches.All(rp => userData.derivedProperties.Any(dp => dp.name == rp));
         }
 
-        public async Task<bool> HasRequiredPropertyAsync(MessageCreateEventArgs e)
+        public async Task<List<string>> GetNickNames(string userName)
         {
-            var userName = e.Author.Username;
-            var response = await client.GetAsync(ConfigurationService.ApiUrl + "/api/user/" + userName);
+            var userData = await GetUserData(userName);
+
+            return userData.nickNames;
+        }
+
+        private async Task<UserData> GetUserData(string userName)
+        {
+            var response = await ApiService.client.GetAsync(ConfigurationService.ApiUrl + "/api/user/" + userName);
 
             response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var userData = JsonConvert.DeserializeObject<UserData>(jsonResponse);
-
-            return ConfigurationService.RequiredProperyMatches.All(rp => userData.derivedProperties.Any(dp => dp.name == rp));
+            return JsonConvert.DeserializeObject<UserData>(jsonResponse);
         }
     }
 }
