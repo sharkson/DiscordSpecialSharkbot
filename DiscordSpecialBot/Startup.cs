@@ -28,6 +28,8 @@ namespace DiscordSpecialBot
 
         private void LoadOptionalSettings()
         {
+            ConfigurationService.MentionOnly = Configuration.GetSection("MentionOnly").Get<bool>();
+
             ConfigurationService.ChatType = Configuration.GetSection("ChatType").Value;
             if(ConfigurationService.ChatType == null)
             {

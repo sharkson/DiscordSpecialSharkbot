@@ -23,7 +23,7 @@ namespace DiscordSpecialBot
         public async Task<bool> useChatResponse(MessageCreateEventArgs e, ChatResponse chatResponse, double confidenceThreshold)
         {
             var respond = await alwaysRespond(e);
-            if (respond || chatResponse.confidence > confidenceThreshold)
+            if (respond || (chatResponse.confidence > confidenceThreshold && !ConfigurationService.MentionOnly))
             {
                 var typeTime = 0;
                 foreach (var chat in chatResponse.response)

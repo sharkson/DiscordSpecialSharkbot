@@ -7,6 +7,7 @@ namespace DiscordSpecialBot
         public static string Token;
         public static string ApiUrl;
         public static string BotName;
+        public static bool MentionOnly;
         public static List<string> IgnoredChannels;
         public static string ChatType;
         public static string NsfwChatType;
